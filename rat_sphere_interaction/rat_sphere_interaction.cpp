@@ -70,6 +70,8 @@ int main()
 
 
 
+
+
     img.SetFileName("result.png");
     img.Write();
 
