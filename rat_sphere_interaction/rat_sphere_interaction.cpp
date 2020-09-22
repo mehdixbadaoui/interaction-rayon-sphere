@@ -3,6 +3,7 @@
 #include <fstream>
 #include<optional>
 #include<string>
+#include <algorithm>
 
 #include "vector3.h"
 #include "EasyBMP.hpp"
@@ -48,18 +49,40 @@ int main()
     Vector3 d(0, 0, 1);
     Vector3 c(0, 0, 100);
     float dis;
+
     Vector3 light(0, 200, 100);
+    float min_dist = INFINITY;
+    //cout << (min_dist > 5);
+    //cout << (light - c).length();
+    for (int x = -100; x <= 100; x++) {
+        for (int y = -100; y <= 100; y++) {
+            Vector3 a(x, y, 0);
+            if ((light - a).length() < min_dist) min_dist = (light - a).length();
+        }
+    }
+
+    cout << min_dist;
+
 
     for (int x = -100; x <= 100; x++) {
         for (int y = -100; y <= 100; y++) {
             Vector3 a(x, y, 0);
+            if ((light - a).length() < min_dist) min_dist = (light - a).length();
             RGBColor color(0, 0, 255);
             float r = 90;
+
             if (raySphereIntersect(a, d, c, r) >= 0 ) {
+                if (abs((light - a).length()) < min_dist + r ) {
+
                 dis = raySphereIntersect(a, d, c, r);
-                color.g = dis + 100;
+                //color.g = dis + 100;
                 img.SetPixel(x + 128, y + 128, color);
                 }
+                else {
+                    img.SetPixel(x + 128, y + 128, RGBColor(0, 0, 0));
+                }
+
+            }
 
         }
     }
