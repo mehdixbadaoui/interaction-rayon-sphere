@@ -30,7 +30,7 @@ float raySphereIntersect(Vector3 r0, Vector3 rd, Vector3 s0, float sr) {
     float sol = (-b - sqrt((b* b) - 4.0 * a * c)) / (2.0 * a);
     if (sol <= 0) {
         //return -1.0;
-        return false;
+        return - 1;
     }
     return sol;
     }
@@ -45,27 +45,26 @@ int main()
     int size = 512;
     Image img(size, size, "result.png", red);
     
-    int changed = 0;
+    Vector3 d(0, 0, 1);
+    Vector3 c(0, 0, 100);
+    float dis;
+    Vector3 light(0, 200, 100);
+
     for (int x = -100; x <= 100; x++) {
         for (int y = -100; y <= 100; y++) {
             Vector3 a(x, y, 0);
-            Vector3 d(0, 0, 1);
-            Vector3 s(0, 0, 30);
-            RGBColor color(255, 255, 255);
-            changed++;
-
-            if (raySphereIntersect(a, d, s, 28)) {
-                float dis = raySphereIntersect(a, d, s, 28);
-                color.r -= dis * 10;
-                color.g -= dis * 10;
-                color.b -= dis * 10;
+            RGBColor color(0, 0, 255);
+            float r = 90;
+            if (raySphereIntersect(a, d, c, r) >= 0 ) {
+                dis = raySphereIntersect(a, d, c, r);
+                color.g = dis + 100;
                 img.SetPixel(x + 128, y + 128, color);
-
-                cout << "changed " << changed << endl;
                 }
 
         }
     }
+
+
 
 
 

@@ -141,7 +141,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="rat_sphere_interaction.cpp" />
+    <ClCompile Include="rat_sphere_interaction.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Documents\UNI\synthese image\interaction-rayon-sphere\vector3-master;D:\Documents\UNI\synthese image\interaction-rayon-sphere\EasyBMP-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
