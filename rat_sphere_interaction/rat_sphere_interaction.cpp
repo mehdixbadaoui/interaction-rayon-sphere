@@ -50,12 +50,21 @@ float raySphereIntersect(Vector3 r0, Vector3 rd, Vector3 s0, float sr) {
     return sol;
     }
 
-Vector3 color_calc(Sphere s, bool visibility, Vector3 intensity, Vector3 light, float distance, Vector3 ax, Vector3 contact) {
+Vector3 color_calc(Sphere s, bool visibility, Vector3 intensity, Vector3 light, Vector3 ax, Vector3 contact) {
 
-    if (distance == 0) return Vector3(0, 0, 0);
+    Vector3 distance = contact - light;
+    float dist = distance.length();
+    distance = distance.normalize();
+
+    Vector3 normale = contact - s.centre;
+    normale.normalize();
+
+    float dot = normale.dot(distance);
+
+    if (dist == 0) return Vector3(0, 0, 0);
     else if (visibility) {
         Vector3 norm = contact - s.centre;
-        return (intensity * light * ax * norm * contact) / (distance * distance * M_PI);
+        return (intensity * ax * dot) / (dist * dist * M_PI);
     }
 }
 
@@ -70,9 +79,9 @@ int main()
     Image img(size, size, "result.png", red);
     
 
-    Sphere s1(Vector3(0, 0, 100), 90);
+    Sphere s1(Vector3(150, 0, 100), 90);
     Sphere s2(Vector3(0,200, 100), 60);
-    Sphere s3(Vector3(300, 300, 100), 30);
+    Sphere s3(Vector3(300, 300, 100), 60);
 
     Sphere spheres[3] = { s1, s2, s3 };
 
@@ -109,7 +118,7 @@ int main()
 
                         //Sphere s, bool visibility, Vector3 intensity, Vector3 light, float distance, Vector3 ax, Vector3 contact)
                         dis = raySphereIntersect(a, d, s.centre, s.radius);
-                        Vector3 color_vals = color_calc(s, true, Vector3(100, 100, 100), Vector3(0, 0, 0), dis, Vector3(1, 0, 0), Vector3(x, y, 0));
+                        Vector3 color_vals = color_calc(s, true, Vector3(100, 100, 100), Vector3(0, 0, 0), Vector3(1, 0, 0), Vector3(x, y, 0));
                         RGBColor color(color_vals.x, color_vals.y, color_vals.z);
 
 
