@@ -72,11 +72,12 @@ Vector3 color_calc(Sphere s, bool visibility, Vector3 intensity, Vector3 light, 
 int main()
 {
     Vector3 white(255, 255, 255);
+    RGBColor black(0, 0, 0);
     RGBColor red(255, 0, 0);
     
 
     int size = 512;
-    Image img(size, size, "result.png", red);
+    Image img(size, size, "result.png", black);
     
 
     Sphere s1(Vector3(150, 0, 100), 90);
@@ -89,7 +90,7 @@ int main()
     //Vector3 c(0, 0, 100);
     float dis;
 
-    Vector3 light(0, 1, 1);
+    Vector3 light(150, 100, 0);
     //Vector3 light2(200, 50, 100);
     float min_dist = INFINITY;
 
@@ -105,36 +106,40 @@ int main()
 
         for (int x = -100; x <= 500; x++) {
             for (int y = -100; y <= 500; y++) {
-                Vector3 a(x, y, 0);
+                Vector3 contact(x, y, 0);
                 RGBColor blue(0, 0, 255);
                 RGBColor green(0, 255, 0);
                 //float r = 90;
                 //Sphere sphere(c, r);
 
-                if (raySphereIntersect(a, d, s.centre, s.radius) >= 0 ) {
+                if (raySphereIntersect(contact, d, s.centre, s.radius) >= 0 ) {
 
 
-                    if (raySphereIntersect(a, light, s.centre, s.radius) >= 0) {
-
-                        //Sphere s, bool visibility, Vector3 intensity, Vector3 light, float distance, Vector3 ax, Vector3 contact)
-                        dis = raySphereIntersect(a, d, s.centre, s.radius);
-                        Vector3 color_vals = color_calc(s, true, Vector3(100, 100, 100), Vector3(0, 0, 0), Vector3(1, 0, 0), Vector3(x, y, 0));
-                        RGBColor color(color_vals.x, color_vals.y, color_vals.z);
+                    Vector3 pixel_color = color_calc(s, true, Vector3(80, 80, 80), light, Vector3(0, 255, 255), contact);
+                    RGBColor col(pixel_color.x, pixel_color.y, pixel_color.z);
+                    img.SetPixel(x + 128, y + 128, col);
 
 
-                        color.g = dis + 100;
-                        img.SetPixel(x + 128, y + 128, color);
+                    //if (raySphereIntersect(a, light, s.centre, s.radius) >= 0) {
 
-                    }
+                    //    //Sphere s, bool visibility, Vector3 intensity, Vector3 light, float distance, Vector3 ax, Vector3 contact)
+                    //    dis = raySphereIntersect(a, d, s.centre, s.radius);
+                    //    Vector3 color_vals = color_calc(s, true, Vector3(100, 100, 100), Vector3(0, 0, 0), Vector3(1, 0, 0), Vector3(x, y, 0));
+                    //    RGBColor color(color_vals.x, color_vals.y, color_vals.z);
 
 
-                    else {
-                        img.SetPixel(x + 128, y + 128, RGBColor(0, 0, 0));
-                    }
+                    //    color.g = dis + 100;
+                    //    img.SetPixel(x + 128, y + 128, color);
+
+                    //}
+
+
+                    //else {
+                    //    img.SetPixel(x + 128, y + 128, RGBColor(0, 0, 0));
+                    //}
 
 
                 }
-
             }
         }
 
