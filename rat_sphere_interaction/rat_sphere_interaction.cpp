@@ -52,6 +52,7 @@ float raySphereIntersect(Vector3 r0, Vector3 rd, Vector3 s0, float sr) {
 
 Vector3 color_calc(Sphere s, bool visibility, Vector3 intensity, Vector3 light, Vector3 ax, Vector3 contact) {
 
+    Vector3 ret;
     Vector3 distance = contact - light;
     float dist = distance.length();
     distance = distance.normalize();
@@ -59,13 +60,17 @@ Vector3 color_calc(Sphere s, bool visibility, Vector3 intensity, Vector3 light, 
     Vector3 normale = contact - s.centre;
     normale.normalize();
 
-    float dot = normale.dot(distance);
+    float dot = abs(normale.dot(distance));
 
     if (dist == 0) return Vector3(0, 0, 0);
     else if (visibility) {
         Vector3 norm = contact - s.centre;
-        return (intensity * ax * dot) / (dist * dist * M_PI);
+        ret = (intensity * ax * dot) / (dist * dist * M_PI);
+        if (ret.x < 0) ret.x = 0;
+        if (ret.y < 0) ret.y = 0;
+        if (ret.z < 0) ret.z = 0;
     }
+    return ret;
 }
 
 
@@ -94,13 +99,6 @@ int main()
     //Vector3 light2(200, 50, 100);
     float min_dist = INFINITY;
 
-    //for (int x = -100; x <= 100; x++) {
-    //    for (int y = -100; y <= 100; y++) {
-    //        Vector3 a(x, y, 0);
-    //        if ((light - a).length() < min_dist) min_dist = (light - a).length();
-    //    }
-    //}
-    //cout << min_dist;
 
     for(Sphere s : spheres) {
 
@@ -109,35 +107,17 @@ int main()
                 Vector3 contact(x, y, 0);
                 RGBColor blue(0, 0, 255);
                 RGBColor green(0, 255, 0);
-                //float r = 90;
-                //Sphere sphere(c, r);
 
                 if (raySphereIntersect(contact, d, s.centre, s.radius) >= 0 ) {
 
 
-                    Vector3 pixel_color = color_calc(s, true, Vector3(80, 80, 80), light, Vector3(0, 255, 255), contact);
+                    Vector3 pixel_color = color_calc(s, true, Vector3(500, 500, 500), light, Vector3(0, 255, 255), contact);
                     RGBColor col(pixel_color.x, pixel_color.y, pixel_color.z);
                     img.SetPixel(x + 128, y + 128, col);
+                    //if (pixel_color.x < 0 || pixel_color.y < 0 || pixel_color.z < 0) {
 
-
-                    //if (raySphereIntersect(a, light, s.centre, s.radius) >= 0) {
-
-                    //    //Sphere s, bool visibility, Vector3 intensity, Vector3 light, float distance, Vector3 ax, Vector3 contact)
-                    //    dis = raySphereIntersect(a, d, s.centre, s.radius);
-                    //    Vector3 color_vals = color_calc(s, true, Vector3(100, 100, 100), Vector3(0, 0, 0), Vector3(1, 0, 0), Vector3(x, y, 0));
-                    //    RGBColor color(color_vals.x, color_vals.y, color_vals.z);
-
-
-                    //    color.g = dis + 100;
-                    //    img.SetPixel(x + 128, y + 128, color);
-
+                    //    cout << "("<<pixel_color.x<<", "<<pixel_color.y<<", "<<pixel_color.z<<")" << endl;
                     //}
-
-
-                    //else {
-                    //    img.SetPixel(x + 128, y + 128, RGBColor(0, 0, 0));
-                    //}
-
 
                 }
             }
