@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rat_sphere_interaction", "rat_sphere_interaction\rat_sphere_interaction.vcxproj", "{18FB419F-2771-4513-ACE2-8F295841D211}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Rayz", "Rayz\Rayz.vcxproj", "{41E91AE2-DF49-4DDA-B303-D54D8E26C566}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{18FB419F-2771-4513-ACE2-8F295841D211}.Release|x64.Build.0 = Release|x64
 		{18FB419F-2771-4513-ACE2-8F295841D211}.Release|x86.ActiveCfg = Release|Win32
 		{18FB419F-2771-4513-ACE2-8F295841D211}.Release|x86.Build.0 = Release|Win32
+		{41E91AE2-DF49-4DDA-B303-D54D8E26C566}.Debug|x64.ActiveCfg = Debug|x64
+		{41E91AE2-DF49-4DDA-B303-D54D8E26C566}.Debug|x64.Build.0 = Debug|x64
+		{41E91AE2-DF49-4DDA-B303-D54D8E26C566}.Debug|x86.ActiveCfg = Debug|Win32
+		{41E91AE2-DF49-4DDA-B303-D54D8E26C566}.Debug|x86.Build.0 = Debug|Win32
+		{41E91AE2-DF49-4DDA-B303-D54D8E26C566}.Release|x64.ActiveCfg = Release|x64
+		{41E91AE2-DF49-4DDA-B303-D54D8E26C566}.Release|x64.Build.0 = Release|x64
+		{41E91AE2-DF49-4DDA-B303-D54D8E26C566}.Release|x86.ActiveCfg = Release|Win32
+		{41E91AE2-DF49-4DDA-B303-D54D8E26C566}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
