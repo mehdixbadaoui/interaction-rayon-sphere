@@ -175,7 +175,6 @@ int main()
 
                 //if (raySphereIntersect(contact, d, s.centre, s.radius) >= 0 ) {
                 if (rayAABIntersect(rayon, boxes[i]) > 0){
-
                     //Vector3 pixel_color = color_calc(s, true, Vector3(500, 500, 500), light, Vector3(0, 255, 255), contact);
                     //RGBColor col(pixel_color.x, pixel_color.y, pixel_color.z);
                     img.SetPixel(x , y, white);
