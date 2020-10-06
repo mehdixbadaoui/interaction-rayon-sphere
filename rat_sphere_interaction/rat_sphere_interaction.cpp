@@ -101,9 +101,7 @@ float raySphereIntersect(Vector3 r0, Vector3 rd, Vector3 s0, float sr) {
     return sol;
     }
 
-RGBColor color_calc(Sphere s, bool visibility, Vector3 intensity, Vector3 light, Vector3 ax, Vector3 contact) {
-float rayAABIntersect(Ray r, Box3 b)
-{
+float rayAABIntersect(Ray r, Box3 b){
     float t0x = (b.bounds[0].x - r.orig.x) / r.dir.x;
     float t1x = (b.bounds[1].x - r.orig.x) / r.dir.x;
     float t0y = (b.bounds[0].y - r.orig.y) / r.dir.y;
@@ -122,7 +120,7 @@ float rayAABIntersect(Ray r, Box3 b)
     return -1;
 }
 
-Vector3 color_calc(Sphere s, bool visibility, Vector3 intensity, Vector3 light, Vector3 ax, Vector3 contact) {
+RGBColor color_calc(Sphere s, bool visibility, Vector3 intensity, Vector3 light, Vector3 ax, Vector3 contact) {
 
     Vector3 ret;
     Vector3 distance = contact - light;
@@ -133,13 +131,10 @@ Vector3 color_calc(Sphere s, bool visibility, Vector3 intensity, Vector3 light, 
     normale.normalize();
 
     float dot = distance.dot(normale);
-    //float dot = distance.dot(normale);
-    float dot = normale.dot(distance);
 
     if (dist == 0) return RGBColor (0, 0, 0);
     else if (visibility) {
         Vector3 norm = contact - s.centre;
-        ret = (-1 * intensity * ax * dot ) / (dist * dist * M_PI);
         ret = ( -1 * intensity * ax * dot) / (dist * dist * M_PI);
         if (ret.x < 0) ret.x = 0;
         if (ret.y < 0) ret.y = 0;
@@ -187,33 +182,35 @@ int main()
     float min_dist = INFINITY;
 
 
-    //for(Sphere s : spheres) {
-    for (int i = 0; i < sizeof(spheres); i++) {
+    for (Sphere s : spheres) {
+        //for (int i = 0; i < sizeof(spheres); i++) {
 
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 Vector3 contact(x, y, 0);
-                if (raySphereIntersect(contact, d, s.centre, s.radius) >= 0 ) {
+                if (raySphereIntersect(contact, d, s.centre, s.radius) >= 0) {
 
 
                     //Vector3 pixel_color = color_calc(s, true, Vector3(1, 3000, 3000), light, Vector3(0, 255, 255), contact);
-                    RGBColor col  = color_calc(s, true, light.getint(), light.getpos(), Vector3(0, 255, 255), contact);
+                    RGBColor col = color_calc(s, true, light.getint(), light.getpos(), Vector3(0, 255, 255), contact);
                     img.SetPixel(x + 128, y + 128, col);
 
-                Ray rayon(contact, d);
-                //RGBColor blue(0, 0, 255);
-                //RGBColor green(0, 255, 0);
+                    //Ray rayon(contact, d);
+                    ////RGBColor blue(0, 0, 255);
+                    ////RGBColor green(0, 255, 0);
 
-                //if (raySphereIntersect(contact, d, s.centre, s.radius) >= 0 ) {
-                if (rayAABIntersect(rayon, boxes[i]) > 0){
-                    //Vector3 pixel_color = color_calc(s, true, Vector3(500, 500, 500), light, Vector3(0, 255, 255), contact);
-                    //RGBColor col(pixel_color.x, pixel_color.y, pixel_color.z);
-                    img.SetPixel(x , y, white);
+                    ////if (raySphereIntersect(contact, d, s.centre, s.radius) >= 0 ) {
+                    //if (rayAABIntersect(rayon, boxes[i]) > 0){
+                    //    //Vector3 pixel_color = color_calc(s, true, Vector3(500, 500, 500), light, Vector3(0, 255, 255), contact);
+                    //    //RGBColor col(pixel_color.x, pixel_color.y, pixel_color.z);
+                    //    img.SetPixel(x , y, white);
+                    //}
+
                 }
             }
+
+
         }
-
-
     }
 
 
